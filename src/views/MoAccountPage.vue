@@ -44,6 +44,10 @@
           <span class="action-label">蚁阅介绍</span>
           <fa-icon class="action-icon" icon="chevron-right" />
         </div>
+        <div class="action-row" @click="goChangelog">
+          <span class="action-label">更新日志</span>
+          <fa-icon class="action-icon" icon="chevron-right" />
+        </div>
       </div>
       <div class="divider"></div>
       <div class="action-group">
@@ -122,7 +126,7 @@ export default {
       return { auto: '跟随系统', enable: '已开启', disable: '已关闭' }[this.darkModeValue]
     },
   },
-  mounted() {},
+  mounted() { },
   methods: {
     configurePassword() {
       if (this.isPasswordConfigured) {
@@ -162,6 +166,9 @@ export default {
     },
     goAbout() {
       this.$router.push('/about')
+    },
+    goChangelog() {
+      window.open('/changelog', '_blank')
     },
     onClickDarkMode() {
       this.isDarkModeDialogOpen = true
