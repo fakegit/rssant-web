@@ -60,7 +60,8 @@ export default {
       this.setDebug(debug)
       this.applyDebug(debug)
     },
-    onClick() {
+    onClick(e) {
+      this.$emit('click', e)
       // 连续点击 10次，切换debug模式
       this.count += 1
       if (this.count >= 10) {
@@ -76,5 +77,4 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

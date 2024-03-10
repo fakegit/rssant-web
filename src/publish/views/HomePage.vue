@@ -4,7 +4,7 @@
         <template v-if="isReady">
             <MoBackHeader :isHome="isHome" border>
                 <template v-slot:title>
-                    <MoDebugTool class="title">{{ title }}</MoDebugTool>
+                    <MoDebugTool class="title" @click="onClickTitle">{{ title }}</MoDebugTool>
                 </template>
                 <mu-button v-if="isPageFeed || isPageStory" icon class="action-detail" @click="goFeedDetail">
                     <fa-icon size="18" icon="info-circle" />
@@ -176,6 +176,12 @@ export default {
                 name: 'PubFeedDetailPage',
                 query: { id: this.currentFeedId },
             })
+        },
+        onClickTitle() {
+            if (!this.isWide || this.isPageHome) {
+                return
+            }
+            this.$router.push({ name: 'PubHomePage' })
         },
     }
 }

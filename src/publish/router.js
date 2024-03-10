@@ -6,12 +6,12 @@ import { enableSafeBack } from '@/router'
 
 const routes = [
   {
-    path: '/rssant/',
-    name: 'PubHome',
+    path: '/',
+    name: 'PubHomePage',
     component: PubHomePage,
   },
   {
-    path: '/rssant/feed-detail',
+    path: '/feed-detail',
     name: 'PubFeedDetailPage',
     component: PubFeedDetailPage,
   },
@@ -21,9 +21,10 @@ const routes = [
 export function createPublishRouter() {
   const router = new Router({
     mode: 'history',
-    base: process.env.BASE_URL,
+    base: '/rssant/',
     routes: routes,
+    strict: true,
   })
-  enableSafeBack(router, { fallback: '/rssant/' })
+  enableSafeBack(router, { fallback: '/' })
   return router
 }
