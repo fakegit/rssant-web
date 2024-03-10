@@ -166,7 +166,9 @@ export default {
         if (!_.isNil(this.currentFeedId) && !_.isNil(this.currentOffset)) {
             await publishStoryStore.doLoadDetail({ feedId: this.currentFeedId, offset: this.currentOffset })
         }
-        this.setupInitFeedAndStory()
+        if (this.isWide) {
+            this.setupInitFeedAndStory()
+        }
     },
     methods: {
         setupInitFeedAndStory() {
