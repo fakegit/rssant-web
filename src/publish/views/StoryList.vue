@@ -45,8 +45,7 @@ export default {
             if (_.isNil(this.currentFeedId)) {
                 return []
             }
-            let itemList = publishStoryStore.getListByFeed(this.currentFeedId)
-            return _.reverse(itemList)
+            return publishStoryStore.getListByFeed(this.currentFeedId)
         },
         beginOffset() {
             if (_.isNil(this.currentFeedId)) {

@@ -29,6 +29,12 @@ export const publishFeedStore = hamiVuex.store({
   get(feedId) {
     return this.feedMap[feedId]
   },
+  getFirstFeedId() {
+    if (this.feedList.length <= 0) {
+      return null
+    }
+    return this.feedList[0].id
+  },
   async doLoad() {
     await this.loading.begin(async () => {
       let result = await API.publish.feedQuery()

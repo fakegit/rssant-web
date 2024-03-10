@@ -166,8 +166,26 @@ export default {
         if (!_.isNil(this.currentFeedId) && !_.isNil(this.currentOffset)) {
             await publishStoryStore.doLoadDetail({ feedId: this.currentFeedId, offset: this.currentOffset })
         }
+        this.setupInitFeedAndStory()
     },
     methods: {
+        setupInitFeedAndStory() {
+            let feedId = null
+            if (_.isNil(this.currentFeedId)) {
+                feedId = publishFeedStore.getFirstFeedId()
+                if (!_.isNil(feedId)) {
+                    this.$router.push({ query: { feed: feedId } })
+                }
+            }
+            if (!_.isNil(feedId) && _.isNil(this.currentOffset)) {
+                publishStoryStore.setInitCallback(() => {
+                    let offset = publishStoryStore.getFirstStoryOffset(feedId)
+                    if (!_.isNil(offset)) {
+                        this.$router.push({ query: { feed: feedId, offset: offset } })
+                    }
+                })
+            }
+        },
         imageViewerContainerGetter() {
             return this.$el.querySelector('.story-image-viewer')
         },

@@ -12,6 +12,7 @@ export const publishStoryStore = hamiVuex.store({
       loadedOffsetBegin: {}, // include
       loadedOffsetEnd: {}, // include
       storyMap: {},
+      initCallback: null,
     }
   },
   get({ feedId, offset }) {
@@ -22,12 +23,19 @@ export const publishStoryStore = hamiVuex.store({
     if (_.isNil(feedStoryMap)) {
       return []
     }
-    return _.sortBy(_.values(feedStoryMap), ['offset'])
+    return _.reverse(_.sortBy(_.values(feedStoryMap), ['offset']))
   },
   getLoadedOffset(feedId) {
     let begin = this.loadedOffsetBegin[feedId]
     let end = this.loadedOffsetEnd[feedId]
     return { begin, end }
+  },
+  getFirstStoryOffset(feedId) {
+    let list = this.getListByFeed(feedId)
+    if (list.length <= 0) {
+      return null
+    }
+    return list[0].offset
   },
   async doLoad({ feedId, offset, detail }) {
     let story = await API.publish.storyGet({ feed_id: feedId, offset, detail })
@@ -57,6 +65,13 @@ export const publishStoryStore = hamiVuex.store({
     let storys = detectDuplicatedStoryImages(data.storys, feedStoryMap)
     this._addOrUpdateList({ feedId, storys: storys })
     this._updateLoadedOffset({ feedId, begin: offset, end: offset + size - 1 })
+    if (isInit && !_.isNil(this.initCallback)) {
+      this.initCallback()
+      this.$patch({ initCallback: null })
+    }
+  },
+  setInitCallback(fn) {
+    this.$patch({ initCallback: fn })
   },
   _addOrUpdate(story) {
     this.$patch(state => {
