@@ -178,11 +178,17 @@ export default {
                 }
             }
             if (!_.isNil(feedId) && _.isNil(this.currentOffset)) {
-                publishStoryStore.setInitCallback(() => {
+                publishStoryStore.setInitCallback(async () => {
                     let offset = publishStoryStore.getFirstStoryOffset(feedId)
-                    if (!_.isNil(offset)) {
-                        this.$router.push({ query: { feed: feedId, offset: offset } })
+                    if (_.isNil(offset)) {
+                        return
                     }
+                    await publishStoryStore.doLoadDetail({ feedId, offset })
+                    this.$router.push({
+                        query: {
+                            feed: feedId, offset: offset
+                        }
+                    })
                 })
             }
         },
