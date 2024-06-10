@@ -2,10 +2,6 @@
 
 set -ex
 
-# https://github.com/docker/buildx/issues/426#issuecomment-723208580
-export DOCKER_BUILDKIT=0
-export COMPOSE_DOCKER_CLI_BUILD=0
-
 if [ -e deploy/history ]; then
     rm -r deploy/history
 fi
